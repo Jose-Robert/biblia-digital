@@ -22,9 +22,9 @@ public class BooksRestController {
         return ResponseEntity.ok().body(books);
     }
 
-    @GetMapping(name = "/{abbrev}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getBookForAbbrev(@PathVariable(name = "abbrev") String abbrev) {
-        var book = consumerApi.getBookForAbbrev(abbrev);
+    @GetMapping("/{abbrev}")
+    public ResponseEntity<String> getBookByAbbrev(@PathVariable(name = "abbrev") String abbrev) {
+        var book = consumerApi.getBookByAbbrev(abbrev);
         return ResponseEntity.ok().body(book);
     }
 

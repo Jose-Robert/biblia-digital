@@ -1,7 +1,23 @@
 url:
-  biblia-digital: https://www.abibliadigital.com.br/api
+  api:
+    biblia-digital: https://www.abibliadigital.com.br/api
 
 server:
   port: ${PORT:8080}
   servlet:
     context-path: /api/v1/biblia-digital
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api.json
+api:
+  cors:
+    allowed-origin: ${CORS_ALLOWED_ORIGIN:*}
+  biblia-digital:
+    info:
+      title: ${API_TITLE:BIBLIA DIGITAL}
+      description: ${API_DESCRIPTION:Documentação da API Bíblia Digital}
+      version: ${API_VERSION:1.0.0}
+      base-package: br.com.api.bibliadigital.resource

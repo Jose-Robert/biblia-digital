@@ -14,7 +14,7 @@ public class DigitalBibleConsumerApi {
 
     public static final String EMPTY_BODY = "Empty Body";
 
-    @Value("${url.biblia-digital}")
+    @Value("${url.api.biblia-digital}")
     private String url;
 
     @Autowired
@@ -27,7 +27,7 @@ public class DigitalBibleConsumerApi {
         return !StringUtils.isBlank(books) ? books : EMPTY_BODY;
     }
 
-    public String getBookForAbbrev(String abbrev) {
+    public String getBookByAbbrev(String abbrev) {
         url = url + "/books/" + abbrev;
         var response = exchange(url);
         var book = response.getBody();
