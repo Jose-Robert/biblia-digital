@@ -1,2 +1,7 @@
 url:
-  biblia-digital: https://www.abibliadigital.com.br/api/
+  biblia-digital: https://www.abibliadigital.com.br/api
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api/v1/biblia-digital

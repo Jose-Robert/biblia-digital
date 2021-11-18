@@ -14,6 +14,7 @@ public class Book implements Serializable {
     private Abbrev abbrev;
     private String author;
     private String chapters;
+    private String comment;
     private String group;
     private String name;
     private String testament;
