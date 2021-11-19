@@ -4,7 +4,7 @@ import br.com.api.bibliadigital.model.Book;
 
 import java.util.List;
 
-public interface BibliaDigitalService {
+public interface BookService {
 
     List<Book> findAllBooks();
     Book findBookByAbbrev(String abbrev);

@@ -1,6 +1,6 @@
-url:
-  api:
-    biblia-digital: https://www.abibliadigital.com.br/api
+urls:
+  biblia-digital:
+    books: https://www.abibliadigital.com.br/api/books
 
 server:
   port: ${PORT:8080}

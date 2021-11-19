@@ -18,4 +18,8 @@ public class Book implements Serializable {
     private String group;
     private String name;
     private String testament;
+
+    public String getComment() {
+        return comment != null ? comment : "";
+    }
 }
