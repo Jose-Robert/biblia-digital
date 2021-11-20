@@ -18,6 +18,6 @@ api:
   biblia-digital:
     info:
       title: ${API_TITLE:BIBLIA DIGITAL}
-      description: ${API_DESCRIPTION:Documentação da API Bíblia Digital}
+      description: ${API_DESCRIPTION:DocumentaÃ§Ã£o da API BÃ­blia Digital}
       version: ${API_VERSION:1.0.0}
       base-package: br.com.api.bibliadigital.resource
