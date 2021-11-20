@@ -1,7 +1,8 @@
-package br.com.api.bibliadigital.service;
+package br.com.api.bibliadigital.service.impl;
 
 import br.com.api.bibliadigital.model.Book;
-import br.com.api.bibliadigital.service.integration.DigitalBibleConsumerApi;
+import br.com.api.bibliadigital.service.BookService;
+import br.com.api.bibliadigital.service.integration.DigitalBibleConsumerBookEndpointApi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    private DigitalBibleConsumerApi consumerApi;
+    private DigitalBibleConsumerBookEndpointApi consumerApi;
 
     @Override
     public List<Book> findAllBooks() {

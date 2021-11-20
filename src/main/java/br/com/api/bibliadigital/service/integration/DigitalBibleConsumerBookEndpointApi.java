@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-public class DigitalBibleConsumerApi {
+public class DigitalBibleConsumerBookEndpointApi {
 
     public static final String EMPTY_BODY = "Empty Body";
 
@@ -36,7 +36,7 @@ public class DigitalBibleConsumerApi {
     }
 
     private ResponseEntity<String> exchange(String uri) {
-        log.info("Consultando API A BIBLIA DIGITAL");
+        log.info("Consultando API A BIBLIA DIGITAL - Books");
         return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>(){});
     }
 }
