@@ -1,5 +1,6 @@
-package br.com.api.bibliadigital.model;
+package br.com.api.bibliadigital.model.dto;
 
+import br.com.api.bibliadigital.model.Abbrev;
 import lombok.*;
 
 import java.io.Serializable;

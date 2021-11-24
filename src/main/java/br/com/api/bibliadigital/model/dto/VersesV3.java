@@ -1,6 +1,6 @@
-package br.com.api.bibliadigital.model;
+package br.com.api.bibliadigital.model.dto;
 
-import br.com.api.bibliadigital.model.dto.BookV2;
+
 import lombok.*;
 
 import java.io.Serializable;
@@ -10,9 +10,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Verse implements Serializable {
+public class VersesV3 implements Serializable {
 
-    private BookV2 book;
+    private BookV3 book;
     private Integer chapter;
     private Integer number;
     private String text;

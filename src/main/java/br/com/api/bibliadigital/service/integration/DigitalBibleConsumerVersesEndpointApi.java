@@ -37,8 +37,35 @@ public class DigitalBibleConsumerVersesEndpointApi {
         return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
     }
 
+    public String getVerseRandom(String version) {
+        String newUrl = url + BARRA + version + BARRA + "random";
+        var reponse = exchange(newUrl);
+        var verse = reponse.getBody();
+        return !StringUtils.isBlank(verse) ? verse : EMPTY_BODY;
+    }
+
+    public String getVerseByBookRandom(String version, String abbrev) {
+        String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + "random";
+        var reponse = exchange(newUrl);
+        var verses = reponse.getBody();
+        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
+    }
+
+    public String searchByWord(Object request) {
+        String newUrl = url + BARRA + "search";
+        var reponse = exchange(newUrl, request);
+        var resultSearch = reponse.getBody();
+        return !StringUtils.isBlank(resultSearch) ? resultSearch : EMPTY_BODY;
+    }
+
     private ResponseEntity<String> exchange(String uri) {
         log.info("Consultando API A BIBLIA DIGITAL - Verses");
         return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>(){});
     }
+
+    private ResponseEntity<String> exchange(String uri, Object request) {
+        log.info("Consultando API A BIBLIA DIGITAL - Verses Request Search");
+        return restTemplate.postForEntity(uri, request, String.class);
+    }
+
 }

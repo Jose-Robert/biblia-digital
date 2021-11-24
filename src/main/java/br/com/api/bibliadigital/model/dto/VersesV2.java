@@ -1,5 +1,7 @@
-package br.com.api.bibliadigital.model;
+package br.com.api.bibliadigital.model.dto;
 
+import br.com.api.bibliadigital.model.Chapter;
+import br.com.api.bibliadigital.model.Verses;
 import lombok.*;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VersesTO implements Serializable {
+public class VersesV2 implements Serializable {
 
     private BookV2 book;
     private Chapter chapter;
