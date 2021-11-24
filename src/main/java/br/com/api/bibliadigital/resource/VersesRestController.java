@@ -1,6 +1,7 @@
 package br.com.api.bibliadigital.resource;
 
 import br.com.api.bibliadigital.model.VersesTO;
+import br.com.api.bibliadigital.model.Verse;
 import br.com.api.bibliadigital.service.VersesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,14 @@ public class VersesRestController {
                                                                      @PathVariable("chapter") Integer chapter) {
         VersesTO versesTO = versesService.findAllVersesAndDetailsOfChapter(version, abbrev, chapter);
         return ResponseEntity.ok().body(versesTO);
+    }
+
+    @GetMapping(value = "/{version}/{abbrev}/{chapter}/{number}")
+    public ResponseEntity<Verse> findAllVersesAndDetailsOfChapter(@PathVariable("version") String version,
+                                                                  @PathVariable("abbrev") String abbrev,
+                                                                  @PathVariable("chapter") Integer chapter,
+                                                                  @PathVariable("number") Integer number) {
+        Verse verse = versesService.findVerseByChapter(version, abbrev, chapter, number);
+        return ResponseEntity.ok().body(verse);
     }
 }

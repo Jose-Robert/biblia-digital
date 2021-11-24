@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class DigitalBibleConsumerVersesEndpointApi {
 
-    public static final String EMPTY_VERSES = "Empty Verses";
+    public static final String EMPTY_BODY = "Empty Verses";
     public static final String BARRA = "/";
 
     @Value("${urls.biblia-digital.verses}")
@@ -27,7 +27,14 @@ public class DigitalBibleConsumerVersesEndpointApi {
         String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter;
         var reponse = exchange(newUrl);
         var verses = reponse.getBody();
-        return !StringUtils.isBlank(verses) ? verses : EMPTY_VERSES;
+        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
+    }
+
+    public String getVerseByChapter(String version, String abbrev, Integer chapter, Integer number) {
+        String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter + BARRA + number;
+        var reponse = exchange(newUrl);
+        var verses = reponse.getBody();
+        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {
