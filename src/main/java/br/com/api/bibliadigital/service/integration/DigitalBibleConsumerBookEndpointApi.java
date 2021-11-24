@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class DigitalBibleConsumerBookEndpointApi {
 
     public static final String EMPTY_BODY = "Empty Body";
+    public static final String BARRA = "/";
 
     @Value("${urls.biblia-digital.books}")
     private String url;
@@ -29,7 +30,7 @@ public class DigitalBibleConsumerBookEndpointApi {
     }
 
     public String getBookByAbbrev(String abbrev) {
-        String newUrl = url + "/" + abbrev;
+        String newUrl = url + BARRA + abbrev;
         var response = exchange(newUrl);
         var book = response.getBody();
         return !StringUtils.isBlank(book) ? book : EMPTY_BODY;

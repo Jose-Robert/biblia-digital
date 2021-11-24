@@ -2,6 +2,7 @@ urls:
   biblia-digital:
     books: https://www.abibliadigital.com.br/api/books
     verses: https://www.abibliadigital.com.br/api/verses
+    versions: https://www.abibliadigital.com.br/api/versions
 
 server:
   port: ${PORT:8080}

@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class DigitalBibleConsumerVersesEndpointApi {
 
-    public static final String EMPTY_BODY = "Empty Verses";
+    public static final String EMPTY_BODY = "Empty Body";
     public static final String BARRA = "/";
 
     @Value("${urls.biblia-digital.verses}")
