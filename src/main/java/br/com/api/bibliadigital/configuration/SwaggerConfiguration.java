@@ -69,8 +69,10 @@ public class SwaggerConfiguration {
     }
 
     private List<SecurityContext> securityContexts() {
-        SecurityContext securityContext = SecurityContext.builder().securityReferences(securityReferences())
-                .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN)).build();
+        SecurityContext securityContext = SecurityContext.builder()
+                .securityReferences(securityReferences())
+                .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN))
+                .build();
         return List.of(securityContext);
     }
 

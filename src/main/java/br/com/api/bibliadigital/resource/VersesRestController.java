@@ -1,7 +1,7 @@
 package br.com.api.bibliadigital.resource;
 
-import br.com.api.bibliadigital.model.dto.VersesRequest;
-import br.com.api.bibliadigital.model.dto.VersesResponse;
+import br.com.api.bibliadigital.model.dto.VersesRequestTO;
+import br.com.api.bibliadigital.model.dto.VersesResponseTO;
 import br.com.api.bibliadigital.model.dto.VersesV2;
 import br.com.api.bibliadigital.model.Verse;
 import br.com.api.bibliadigital.service.VersesService;
@@ -49,8 +49,8 @@ public class VersesRestController {
     }
 
     @PostMapping(value = "/search")
-    public ResponseEntity<VersesResponse> searchByWord(@RequestBody VersesRequest request) {
-        VersesResponse response = versesService.searchByWord(request);
+    public ResponseEntity<VersesResponseTO> searchByWord(@RequestBody VersesRequestTO request) {
+        VersesResponseTO response = versesService.searchByWord(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

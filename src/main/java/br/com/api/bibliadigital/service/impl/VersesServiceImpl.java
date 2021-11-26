@@ -1,7 +1,7 @@
 package br.com.api.bibliadigital.service.impl;
 
-import br.com.api.bibliadigital.model.dto.VersesRequest;
-import br.com.api.bibliadigital.model.dto.VersesResponse;
+import br.com.api.bibliadigital.model.dto.VersesRequestTO;
+import br.com.api.bibliadigital.model.dto.VersesResponseTO;
 import br.com.api.bibliadigital.model.dto.VersesV2;
 import br.com.api.bibliadigital.model.Verse;
 import br.com.api.bibliadigital.service.VersesService;
@@ -45,9 +45,9 @@ public class VersesServiceImpl implements VersesService {
     }
 
     @Override
-    public VersesResponse searchByWord(VersesRequest request) {
+    public VersesResponseTO searchByWord(VersesRequestTO request) {
         String json = versesEndpoint.searchByWord(request);
         Gson gson = new Gson();
-        return gson.fromJson(json, VersesResponse.class);
+        return gson.fromJson(json, VersesResponseTO.class);
     }
 }

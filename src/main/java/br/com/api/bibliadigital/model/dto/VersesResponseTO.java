@@ -3,14 +3,16 @@ package br.com.api.bibliadigital.model.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VersesRequest implements Serializable {
+public class VersesResponseTO implements Serializable {
 
+    private String occurrence;
     private String version;
-    private String search;
+    private List<VersesV3> verses;
 }
