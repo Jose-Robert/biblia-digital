@@ -1,7 +1,7 @@
 package br.com.api.bibliadigital.service.integration;
 
-import br.com.api.bibliadigital.utils.ExtractBearerToken;
-import br.com.api.bibliadigital.utils.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.GetBearerToken;
+import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class DigitalBibleConsumerUsersEndpointApi {
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
-    private ExtractBearerToken extractBearerToken;
+    private GetBearerToken token;
     @Autowired
     private HttpHeadersCreator httpHeaders;
 
@@ -56,7 +56,7 @@ public class DigitalBibleConsumerUsersEndpointApi {
         RequestEntity<Object> requestEntity = RequestEntity.post(URI.create(uri))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(AUTHORIZATION_HEADER, extractBearerToken.getBearerToken())
+                .header(AUTHORIZATION_HEADER, token.getBearerToken())
                 .body(request);
         return restTemplate.postForEntity(uri, requestEntity, String.class);
     }

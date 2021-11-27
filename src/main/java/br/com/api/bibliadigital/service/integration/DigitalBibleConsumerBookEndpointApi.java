@@ -1,10 +1,13 @@
 package br.com.api.bibliadigital.service.integration;
 
+import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,8 @@ public class DigitalBibleConsumerBookEndpointApi {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private HttpHeadersCreator httpHeaders;
 
     public String getBooks() {
         var response = exchange(url);
@@ -38,6 +43,8 @@ public class DigitalBibleConsumerBookEndpointApi {
 
     private ResponseEntity<String> exchange(String uri) {
         log.info("Consultando API A BIBLIA DIGITAL - Books");
-        return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>(){});
+        HttpHeaders headers = httpHeaders.createHttpHeaders();
+        HttpEntity<String> httpEntity = new HttpEntity<>("headers", headers);
+        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>(){});
     }
 }

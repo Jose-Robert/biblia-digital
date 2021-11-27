@@ -4,8 +4,7 @@ import br.com.api.bibliadigital.model.dto.UserRequestTO;
 import br.com.api.bibliadigital.model.dto.UserResponseTO;
 import br.com.api.bibliadigital.model.dto.UserV2;
 import br.com.api.bibliadigital.service.UserService;
-import br.com.api.bibliadigital.utils.ExtractBearerToken;
-import br.com.api.bibliadigital.utils.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,20 +20,20 @@ public class UsersRestController {
     @Autowired
     private UserService userService;
     @Autowired
-    private ExtractBearerToken extractBearerToken;
-    @Autowired
-    private HttpHeadersCreator httpHeadersCreator;
+    private HttpHeadersCreator httpHeaders;
 
     @PostMapping
-    public ResponseEntity<UserResponseTO> createUser(@RequestBody UserRequestTO request, HttpServletRequest servletRequest) {
-        httpHeadersCreator.extractHeaderAuthorization(servletRequest);
-        UserResponseTO response = userService.createUser(request);
+    public ResponseEntity<UserResponseTO> createUser(@RequestBody UserRequestTO userRequestTO,
+                                                     HttpServletRequest servletRequest) {
+        httpHeaders.getAuthorization(servletRequest);
+        UserResponseTO response = userService.createUser(userRequestTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserV2> findUser(@PathVariable("email") String email, HttpServletRequest request) {
-        httpHeadersCreator.extractHeaderAuthorization(request);
+    public ResponseEntity<UserV2> findUser(@PathVariable("email") String email,
+                                           HttpServletRequest request) {
+        httpHeaders.getAuthorization(request);
         UserV2 user = userService.findUser(email);
         return ResponseEntity.ok().body(user);
     }

@@ -2,6 +2,7 @@ package br.com.api.bibliadigital.resource;
 
 import br.com.api.bibliadigital.model.Versions;
 import br.com.api.bibliadigital.service.VersionsService;
+import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -17,9 +19,12 @@ public class VersionsRestController {
 
     @Autowired
     private VersionsService versionsService;
+    @Autowired
+    private HttpHeadersCreator httpHeaders;
 
     @GetMapping
-    public ResponseEntity<List<Versions>> findAllVersions() {
+    public ResponseEntity<List<Versions>> findAllVersions(HttpServletRequest servletRequest) {
+        httpHeaders.getAuthorization(servletRequest);
         List<Versions> versions = versionsService.findAllVersions();
         return ResponseEntity.ok().body(versions);
     }
