@@ -15,7 +15,7 @@ import java.net.URI;
 
 @Slf4j
 @Service
-public class DigitalBibleConsumerUsersEndpointApi {
+public class ConsumerUsersEndpoints {
 
     public static final String EMPTY_BODY = "Empty Body";
     public static final String BARRA = "/";

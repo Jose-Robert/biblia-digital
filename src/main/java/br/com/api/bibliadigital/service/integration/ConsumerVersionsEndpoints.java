@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-public class DigitalBibleConsumerVersionsEndpointApi {
+public class ConsumerVersionsEndpoints {
 
     public static final String EMPTY_BODY = "Empty Body";
 
