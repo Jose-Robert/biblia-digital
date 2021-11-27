@@ -1,6 +1,7 @@
 package br.com.api.bibliadigital.configuration;
 
 import br.com.api.bibliadigital.configuration.property.ApiInfoProperties;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,7 +66,7 @@ public class SwaggerConfiguration {
     }
 
     private List<ApiKey> securitySchemes() {
-        return List.of(new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, HTTP_HEADER));
+        return List.of(new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, In.HEADER.name()));
     }
 
     private List<SecurityContext> securityContexts() {
