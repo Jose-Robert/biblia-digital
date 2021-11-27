@@ -1,5 +1,6 @@
 package br.com.api.bibliadigital.resource;
 
+import br.com.api.bibliadigital.model.Stats;
 import br.com.api.bibliadigital.model.dto.UserRequestTO;
 import br.com.api.bibliadigital.model.dto.UserResponseTO;
 import br.com.api.bibliadigital.model.dto.UserV2;
@@ -32,9 +33,16 @@ public class UsersRestController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserV2> findUser(@PathVariable("email") String email,
-                                           HttpServletRequest request) {
-        httpHeaders.getAuthorization(request);
+                                           HttpServletRequest servletRequest) {
+        httpHeaders.getAuthorization(servletRequest);
         UserV2 user = userService.findUser(email);
         return ResponseEntity.ok().body(user);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<Stats> findAllStatistics(HttpServletRequest servletRequest) {
+        httpHeaders.getAuthorization(servletRequest);
+        Stats stats = userService.findAllStatistics();
+        return ResponseEntity.ok().body(stats);
     }
 }

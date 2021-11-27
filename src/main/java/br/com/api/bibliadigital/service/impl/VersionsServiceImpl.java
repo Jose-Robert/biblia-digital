@@ -2,7 +2,7 @@ package br.com.api.bibliadigital.service.impl;
 
 import br.com.api.bibliadigital.model.Versions;
 import br.com.api.bibliadigital.service.VersionsService;
-import br.com.api.bibliadigital.service.integration.ConsumerVersionsEndpoints;
+import br.com.api.bibliadigital.integration.ConsumerVersionsEndpoints;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

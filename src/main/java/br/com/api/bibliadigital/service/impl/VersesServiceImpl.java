@@ -5,7 +5,7 @@ import br.com.api.bibliadigital.model.dto.VersesResponseTO;
 import br.com.api.bibliadigital.model.dto.VersesV2;
 import br.com.api.bibliadigital.model.Verse;
 import br.com.api.bibliadigital.service.VersesService;
-import br.com.api.bibliadigital.service.integration.ConsumerVersesEndpoints;
+import br.com.api.bibliadigital.integration.ConsumerVersesEndpoints;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package br.com.api.bibliadigital.service.integration;
+package br.com.api.bibliadigital.integration;
 
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;

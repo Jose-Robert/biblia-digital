@@ -2,7 +2,7 @@ package br.com.api.bibliadigital.service.impl;
 
 import br.com.api.bibliadigital.model.Book;
 import br.com.api.bibliadigital.service.BookService;
-import br.com.api.bibliadigital.service.integration.ConsumerBooksEndpoints;
+import br.com.api.bibliadigital.integration.ConsumerBooksEndpoints;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findBookByAbbrev(String abbrev) {
-        var booksJson = booksEndpoints.getBookByAbbrev(abbrev);
+        var booksJson = booksEndpoints.getBookByAbbrev(abbrev.toLowerCase());
         return gson.fromJson(booksJson, Book.class);
     }
 }

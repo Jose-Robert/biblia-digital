@@ -1,4 +1,4 @@
-package br.com.api.bibliadigital.service.integration;
+package br.com.api.bibliadigital.integration;
 
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
@@ -42,6 +42,13 @@ public class ConsumerUsersEndpoints {
         var response = exchange(newUrl);
         var user = response.getBody();
         return !StringUtils.isBlank(user) ? user : EMPTY_BODY;
+    }
+
+    public String getUserStats() {
+        String newUrl = url + BARRA + "stats";
+        var response = exchange(newUrl);
+        var stats = response.getBody();
+        return !StringUtils.isBlank(stats) ? stats : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {
