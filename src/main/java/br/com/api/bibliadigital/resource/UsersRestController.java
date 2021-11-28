@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE,
+                                 consumes = MediaType.APPLICATION_JSON_VALUE)
 public class UsersRestController {
 
     @Autowired
@@ -45,8 +46,16 @@ public class UsersRestController {
     }
 
     @PutMapping("/token")
-    public ResponseEntity<TokenResponseTO> updateTokenUser(@RequestBody TokenRequestTO requestTO) {
-        TokenResponseTO responseTO = userService.updateToken(requestTO);
+    public ResponseEntity<UserResponseV2> updateTokenUser(@RequestBody UserRequestV2 requestTO) {
+        UserResponseV2 responseTO = userService.updateToken(requestTO);
         return ResponseEntity.ok().body(responseTO);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteUser(@RequestBody UserRequestV2 requestTO,
+                                             HttpServletRequest servletRequest) {
+        httpHeaders.getAuthorization(servletRequest);
+        String msg = userService.deleteUser(requestTO);
+        return ResponseEntity.ok().body(msg);
     }
 }

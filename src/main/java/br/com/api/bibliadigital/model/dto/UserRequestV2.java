@@ -9,8 +9,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TokenResponseTO implements Serializable {
-    private String name;
+public class UserRequestV2 implements Serializable {
+
     private String email;
-    private String token;
+    private String password;
 }

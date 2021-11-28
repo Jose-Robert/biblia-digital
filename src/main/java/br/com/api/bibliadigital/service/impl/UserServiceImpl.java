@@ -1,10 +1,11 @@
 package br.com.api.bibliadigital.service.impl;
 
+import br.com.api.bibliadigital.integration.ConsumerUsersEndpoints;
 import br.com.api.bibliadigital.model.Stats;
 import br.com.api.bibliadigital.model.dto.*;
 import br.com.api.bibliadigital.service.UserService;
-import br.com.api.bibliadigital.integration.ConsumerUsersEndpoints;
 import com.google.gson.Gson;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,8 +38,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenResponseTO updateToken(TokenRequestTO requestTO) {
+    public UserResponseV2 updateToken(UserRequestV2 requestTO) {
         String token = usersEndpoints.updateToken(requestTO);
-        return gson.fromJson(token, TokenResponseTO.class);
+        return gson.fromJson(token, UserResponseV2.class);
+    }
+
+    @Override
+    public String deleteUser(UserRequestV2 requestV2) {
+        String body = usersEndpoints.deleteUser(requestV2);
+        JSONObject json = new JSONObject(body);
+        return String.valueOf(json);
     }
 }

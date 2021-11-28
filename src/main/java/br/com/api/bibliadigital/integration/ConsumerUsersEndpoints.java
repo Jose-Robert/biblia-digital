@@ -58,6 +58,12 @@ public class ConsumerUsersEndpoints {
         return getResultBody(tokenBody);
     }
 
+    public String deleteUser(Object request) {
+        var responseEntity = exchangeDelete(url, request);
+        var msg = responseEntity.getBody();
+        return getResultBody(msg);
+    }
+
     private String getResultBody(String body) {
         return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
@@ -80,12 +86,19 @@ public class ConsumerUsersEndpoints {
     }
 
     private ResponseEntity<String> exchangePut(String uri, Object request) {
-        log.info("Consultando API A BIBLIA DIGITAL - Request Update");
+        log.info("Consultando API A BIBLIA DIGITAL - User Request Update");
         RequestEntity<Object> requestEntity = RequestEntity.put(URI.create(uri))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(request);
         return restTemplate.exchange(uri, HttpMethod.PUT, requestEntity, new ParameterizedTypeReference<>(){});
+    }
+
+    private ResponseEntity<String> exchangeDelete(String uri, Object request) {
+        log.info("Consultando API A BIBLIA DIGITAL - User Request Delete");
+        HttpHeaders headers = httpHeaders.createHttpHeaders();
+        HttpEntity<Object> httpEntity = new HttpEntity<>(request, headers);
+        return restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);
     }
 
 }

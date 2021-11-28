@@ -8,5 +8,6 @@ public interface UserService {
     UserResponseTO createUser(UserRequestTO requestTO);
     UserV2 findUser(String email);
     Stats findAllStatistics();
-    TokenResponseTO updateToken(TokenRequestTO requestTO);
+    UserResponseV2 updateToken(UserRequestV2 requestTO);
+    String deleteUser(UserRequestV2 requestV2);
 }
