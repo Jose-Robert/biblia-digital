@@ -45,14 +45,14 @@ public class ConsumerUsersEndpoints {
     }
 
     public String getUserStats() {
-        String newUrl = url + BARRA + "stats";
+        String newUrl = url + "/stats";
         var responseEntity = exchange(newUrl);
         var stats = responseEntity.getBody();
         return getResultBody(stats);
     }
 
     public String updateToken(Object request) {
-        String newUrl = url + BARRA + "token";
+        String newUrl = url + "/token";
         var responseEntity = exchangePut(newUrl, request);
         var tokenBody = responseEntity.getBody();
         return getResultBody(tokenBody);
@@ -65,8 +65,9 @@ public class ConsumerUsersEndpoints {
     }
 
     public String sendEmail(String email) {
-        String newUrl = url + BARRA + "password" + BARRA + email;
-        var responseEntity = postExchange(newUrl);
+        String newUrl = url + "/password" + BARRA + email;
+        log.info("Consultando API A BIBLIA DIGITAL - Resend User Password");
+        var responseEntity = restTemplate.exchange(newUrl, HttpMethod.POST, null, String.class);
         var msg = responseEntity.getBody();
         return getResultBody(msg);
     }
@@ -106,11 +107,6 @@ public class ConsumerUsersEndpoints {
         HttpHeaders headers = httpHeaders.createHttpHeaders();
         HttpEntity<Object> httpEntity = new HttpEntity<>(request, headers);
         return restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);
-    }
-
-    private ResponseEntity<String> postExchange(String uri) {
-        log.info("Consultando API A BIBLIA DIGITAL - Resend User Password");
-        return restTemplate.exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<>(){});
     }
 
 }

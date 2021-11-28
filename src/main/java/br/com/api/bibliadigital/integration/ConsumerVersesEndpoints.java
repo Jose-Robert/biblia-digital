@@ -46,21 +46,21 @@ public class ConsumerVersesEndpoints {
     }
 
     public String getVerseRandom(String version) {
-        String newUrl = url + BARRA + version + BARRA + "random";
+        String newUrl = url + BARRA + version + "/random";
         var responseEntity = exchange(newUrl);
         var verse = responseEntity.getBody();
         return getResultBody(verse);
     }
 
     public String getVerseByBookRandom(String version, String abbrev) {
-        String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + "random";
+        String newUrl = url + BARRA + version + BARRA + abbrev + "/random";
         var responseEntity = exchange(newUrl);
         var verses = responseEntity.getBody();
         return getResultBody(verses);
     }
 
     public String searchByWord(Object request) {
-        String newUrl = url + BARRA + "search";
+        String newUrl = url + "/search";
         var responseEntity = exchange(newUrl, request);
         var resultSearch = responseEntity.getBody();
         return getResultBody(resultSearch);

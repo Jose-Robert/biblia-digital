@@ -4,6 +4,7 @@ urls:
     verses: https://www.abibliadigital.com.br/api/verses
     versions: https://www.abibliadigital.com.br/api/versions
     users: https://www.abibliadigital.com.br/api/users
+    requests: https://www.abibliadigital.com.br/api/requests
 
 server:
   port: ${PORT:8080}
