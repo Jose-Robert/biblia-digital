@@ -45,8 +45,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String deleteUser(UserRequestV2 requestV2) {
-        String body = usersEndpoints.deleteUser(requestV2);
-        JSONObject json = new JSONObject(body);
+        String msg = usersEndpoints.deleteUser(requestV2);
+        JSONObject json = new JSONObject(msg);
+        return String.valueOf(json);
+    }
+
+    @Override
+    public String sendEmail(String email) {
+        String msg = usersEndpoints.sendEmail(email);
+        JSONObject json = new JSONObject(msg);
         return String.valueOf(json);
     }
 }

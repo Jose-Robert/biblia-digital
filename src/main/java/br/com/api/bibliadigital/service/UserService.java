@@ -10,4 +10,5 @@ public interface UserService {
     Stats findAllStatistics();
     UserResponseV2 updateToken(UserRequestV2 requestTO);
     String deleteUser(UserRequestV2 requestV2);
+    String sendEmail(String email);
 }

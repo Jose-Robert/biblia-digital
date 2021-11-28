@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE,
-                                 consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/users")
 public class UsersRestController {
 
     @Autowired
@@ -22,7 +21,7 @@ public class UsersRestController {
     @Autowired
     private HttpHeadersCreator httpHeaders;
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResponseTO> createUser(@RequestBody UserRequestTO userRequestTO,
                                                      HttpServletRequest servletRequest) {
         httpHeaders.getAuthorization(servletRequest);
@@ -30,7 +29,7 @@ public class UsersRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserV2> findUser(@PathVariable("email") String email,
                                            HttpServletRequest servletRequest) {
         httpHeaders.getAuthorization(servletRequest);
@@ -38,24 +37,30 @@ public class UsersRestController {
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("/stats")
+    @GetMapping(value = "/stats", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Stats> findAllStatistics(HttpServletRequest servletRequest) {
         httpHeaders.getAuthorization(servletRequest);
         Stats stats = userService.findAllStatistics();
         return ResponseEntity.ok().body(stats);
     }
 
-    @PutMapping("/token")
+    @PutMapping(value = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResponseV2> updateTokenUser(@RequestBody UserRequestV2 requestTO) {
         UserResponseV2 responseTO = userService.updateToken(requestTO);
         return ResponseEntity.ok().body(responseTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteUser(@RequestBody UserRequestV2 requestTO,
                                              HttpServletRequest servletRequest) {
         httpHeaders.getAuthorization(servletRequest);
         String msg = userService.deleteUser(requestTO);
+        return ResponseEntity.ok().body(msg);
+    }
+
+    @PostMapping(value = "/password/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> resendPasswordUser(@PathVariable(value = "email") String email) {
+        String msg = userService.sendEmail(email);
         return ResponseEntity.ok().body(msg);
     }
 }

@@ -64,6 +64,13 @@ public class ConsumerUsersEndpoints {
         return getResultBody(msg);
     }
 
+    public String sendEmail(String email) {
+        String newUrl = url + BARRA + "password" + BARRA + email;
+        var responseEntity = postExchange(newUrl);
+        var msg = responseEntity.getBody();
+        return getResultBody(msg);
+    }
+
     private String getResultBody(String body) {
         return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
@@ -99,6 +106,11 @@ public class ConsumerUsersEndpoints {
         HttpHeaders headers = httpHeaders.createHttpHeaders();
         HttpEntity<Object> httpEntity = new HttpEntity<>(request, headers);
         return restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);
+    }
+
+    private ResponseEntity<String> postExchange(String uri) {
+        log.info("Consultando API A BIBLIA DIGITAL - Resend User Password");
+        return restTemplate.exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<>(){});
     }
 
 }
