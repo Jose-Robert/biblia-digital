@@ -1,9 +1,7 @@
 package br.com.api.bibliadigital.service.impl;
 
 import br.com.api.bibliadigital.model.Stats;
-import br.com.api.bibliadigital.model.dto.UserRequestTO;
-import br.com.api.bibliadigital.model.dto.UserResponseTO;
-import br.com.api.bibliadigital.model.dto.UserV2;
+import br.com.api.bibliadigital.model.dto.*;
 import br.com.api.bibliadigital.service.UserService;
 import br.com.api.bibliadigital.integration.ConsumerUsersEndpoints;
 import com.google.gson.Gson;
@@ -21,8 +19,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseTO createUser(UserRequestTO request) {
-        String user = usersEndpoints.postUsers(request);
+    public UserResponseTO createUser(UserRequestTO requestTO) {
+        String user = usersEndpoints.postUsers(requestTO);
         return gson.fromJson(user, UserResponseTO.class);
     }
 
@@ -36,5 +34,11 @@ public class UserServiceImpl implements UserService {
     public Stats findAllStatistics() {
         String stats = usersEndpoints.getUserStats();
         return gson.fromJson(stats, Stats.class);
+    }
+
+    @Override
+    public TokenResponseTO updateToken(TokenRequestTO requestTO) {
+        String token = usersEndpoints.updateToken(requestTO);
+        return gson.fromJson(token, TokenResponseTO.class);
     }
 }

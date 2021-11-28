@@ -12,25 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 public class HttpHeadersCreator {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private final GetBearerToken extract;
+    private final GetBearerToken token;
 
-    public HttpHeadersCreator(GetBearerToken extract) {
-        this.extract = extract;
+    public HttpHeadersCreator(GetBearerToken token) {
+        this.token = token;
     }
 
     public HttpHeaders createHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER, extract.getBearerToken());
+        headers.add(AUTHORIZATION_HEADER, token.getBearerToken());
         return headers;
     }
 
     public void getAuthorization(HttpServletRequest servletRequest) {
         String authorization = servletRequest.getHeader("authorization");
-        extract.setBearerToken(authorization);
+        token.setBearerToken(authorization);
         if (!StringUtils.isBlank(authorization)) {
-            log.info(AUTHORIZATION_HEADER+": " + extract.getBearerToken());
+            log.info(AUTHORIZATION_HEADER+": " + token.getBearerToken());
         } else {
-            log.info(AUTHORIZATION_HEADER+": " + extract.getBearerToken());
+            log.info(AUTHORIZATION_HEADER+": " + token.getBearerToken());
         }
     }
 }

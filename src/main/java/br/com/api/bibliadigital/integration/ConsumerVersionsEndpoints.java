@@ -27,9 +27,13 @@ public class ConsumerVersionsEndpoints {
     private HttpHeadersCreator httpHeaders;
 
     public String getVersions() {
-        var response = exchange(url);
-        var versions = response.getBody();
-        return !StringUtils.isBlank(versions) ? versions : EMPTY_BODY;
+        var responseEntity = exchange(url);
+        var versions = responseEntity.getBody();
+        return getResultBody(versions);
+    }
+
+    private String getResultBody(String body) {
+        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {

@@ -33,37 +33,41 @@ public class ConsumerVersesEndpoints {
 
     public String getAllVersesAndDetailsOfChapter(String version, String abbrev, Integer chapter) {
         String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter;
-        var reponse = exchange(newUrl);
-        var verses = reponse.getBody();
-        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
+        var responseEntity = exchange(newUrl);
+        var verses = responseEntity.getBody();
+        return getResultBody(verses);
     }
 
     public String getVerseByChapter(String version, String abbrev, Integer chapter, Integer number) {
         String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter + BARRA + number;
-        var reponse = exchange(newUrl);
-        var verses = reponse.getBody();
-        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
+        var responseEntity = exchange(newUrl);
+        var verses = responseEntity.getBody();
+        return getResultBody(verses);
     }
 
     public String getVerseRandom(String version) {
         String newUrl = url + BARRA + version + BARRA + "random";
-        var reponse = exchange(newUrl);
-        var verse = reponse.getBody();
-        return !StringUtils.isBlank(verse) ? verse : EMPTY_BODY;
+        var responseEntity = exchange(newUrl);
+        var verse = responseEntity.getBody();
+        return getResultBody(verse);
     }
 
     public String getVerseByBookRandom(String version, String abbrev) {
         String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + "random";
-        var reponse = exchange(newUrl);
-        var verses = reponse.getBody();
-        return !StringUtils.isBlank(verses) ? verses : EMPTY_BODY;
+        var responseEntity = exchange(newUrl);
+        var verses = responseEntity.getBody();
+        return getResultBody(verses);
     }
 
     public String searchByWord(Object request) {
         String newUrl = url + BARRA + "search";
-        var reponse = exchange(newUrl, request);
-        var resultSearch = reponse.getBody();
-        return !StringUtils.isBlank(resultSearch) ? resultSearch : EMPTY_BODY;
+        var responseEntity = exchange(newUrl, request);
+        var resultSearch = responseEntity.getBody();
+        return getResultBody(resultSearch);
+    }
+
+    private String getResultBody(String body) {
+        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {

@@ -1,9 +1,7 @@
 package br.com.api.bibliadigital.resource;
 
 import br.com.api.bibliadigital.model.Stats;
-import br.com.api.bibliadigital.model.dto.UserRequestTO;
-import br.com.api.bibliadigital.model.dto.UserResponseTO;
-import br.com.api.bibliadigital.model.dto.UserV2;
+import br.com.api.bibliadigital.model.dto.*;
 import br.com.api.bibliadigital.service.UserService;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +42,11 @@ public class UsersRestController {
         httpHeaders.getAuthorization(servletRequest);
         Stats stats = userService.findAllStatistics();
         return ResponseEntity.ok().body(stats);
+    }
+
+    @PutMapping("/token")
+    public ResponseEntity<TokenResponseTO> updateTokenUser(@RequestBody TokenRequestTO requestTO) {
+        TokenResponseTO responseTO = userService.updateToken(requestTO);
+        return ResponseEntity.ok().body(responseTO);
     }
 }

@@ -29,16 +29,20 @@ public class ConsumerBooksEndpoints {
     private HttpHeadersCreator httpHeaders;
 
     public String getBooks() {
-        var response = exchange(url);
-        var books = response.getBody();
-        return !StringUtils.isBlank(books) ? books : EMPTY_BODY;
+        var responseEntity = exchange(url);
+        var books = responseEntity.getBody();
+        return getResultBody(books);
     }
 
     public String getBookByAbbrev(String abbrev) {
         String newUrl = url + BARRA + abbrev;
-        var response = exchange(newUrl);
-        var book = response.getBody();
-        return !StringUtils.isBlank(book) ? book : EMPTY_BODY;
+        var responseEntity = exchange(newUrl);
+        var book = responseEntity.getBody();
+        return getResultBody(book);
+    }
+
+    private String getResultBody(String body) {
+        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {
