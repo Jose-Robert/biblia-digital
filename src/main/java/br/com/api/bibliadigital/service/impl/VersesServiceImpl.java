@@ -23,25 +23,27 @@ public class VersesServiceImpl implements VersesService {
 
     @Override
     public VersesV2 findAllVersesAndDetailsOfChapter(String version, String abbrev, Integer chapter) {
-        String versesJson = versesEndpoints.getAllVersesAndDetailsOfChapter(version, abbrev, chapter);
+        String versesJson = versesEndpoints.getAllVersesAndDetailsOfChapter(version.toLowerCase(),
+                abbrev.toLowerCase(), chapter);
         return gson.fromJson(versesJson, VersesV2.class);
     }
 
     @Override
     public Verse findVerseByChapter(String version, String abbrev, Integer chapter, Integer number) {
-        String verseJson = versesEndpoints.getVerseByChapter(version, abbrev, chapter, number);
+        String verseJson = versesEndpoints.getVerseByChapter(version.toLowerCase(),
+                abbrev.toLowerCase(), chapter, number);
         return gson.fromJson(verseJson, Verse.class);
     }
 
     @Override
     public Verse findVerseRandom(String version) {
-        String verseJson = versesEndpoints.getVerseRandom(version);
+        String verseJson = versesEndpoints.getVerseRandom(version.toLowerCase());
         return gson.fromJson(verseJson, Verse.class);
     }
 
     @Override
     public Verse findVerseByBookRandom(String version, String abbrev) {
-        String verseJson = versesEndpoints.getVerseByBookRandom(version, abbrev);
+        String verseJson = versesEndpoints.getVerseByBookRandom(version.toLowerCase(), abbrev.toLowerCase());
         return gson.fromJson(verseJson, Verse.class);
     }
 

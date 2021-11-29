@@ -1,6 +1,6 @@
 package br.com.api.bibliadigital.integration;
 
-import br.com.api.bibliadigital.shared.BookValidateComponent;
+import br.com.api.bibliadigital.shared.ValidateComponent;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +30,7 @@ public class ConsumerBooksEndpoints {
     @Autowired
     private HttpHeadersCreator httpHeaders;
     @Autowired
-    private BookValidateComponent validateComponent;
+    private ValidateComponent component;
 
     public String getBooks() {
         try{
@@ -38,7 +38,7 @@ public class ConsumerBooksEndpoints {
             var books = responseEntity.getBody();
             return getResultBody(books);
         } catch (HttpClientErrorException errorException) {
-            validateComponent.validate(errorException);
+            component.validate(errorException);
         }
         return EMPTY_BODY;
     }
@@ -50,7 +50,7 @@ public class ConsumerBooksEndpoints {
             var book = responseEntity.getBody();
             return getResultBody(book);
         } catch (HttpClientErrorException errorException) {
-            validateComponent.validate(errorException);
+            component.validate(errorException);
         }
         return EMPTY_BODY;
     }

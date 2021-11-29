@@ -1,6 +1,8 @@
 package br.com.api.bibliadigital.application.handler;
 
 import br.com.api.bibliadigital.application.exceptions.ConfilctLimitRequisitionsIPException;
+import br.com.api.bibliadigital.application.exceptions.ResourceNotFoundException;
+import br.com.api.bibliadigital.application.exceptions.TokenNotAuthorizedException;
 import br.com.api.bibliadigital.shared.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -23,18 +25,32 @@ public class ValidationsExceptionHandler extends ResponseEntityExceptionHandler 
     @Autowired
     private MessageService messageService;
 
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<Object> handlerResourceNotFoundException(ResourceNotFoundException exception,
+                                                                  WebRequest request) {
+        Object[] args = {exception.getMessage()};
+        return handlerException(exception, HttpStatus.NOT_FOUND, request, "general.resource-not-found", args);
+    }
+
     @ExceptionHandler({ConfilctLimitRequisitionsIPException.class})
     public ResponseEntity<Object> handlerConfilctLimitRequisitionsIPException(ConfilctLimitRequisitionsIPException exception,
                                                                WebRequest request) {
         Object[] args = {exception.getMessage()};
-        return handlerException(exception, HttpStatus.BAD_REQUEST, request, "general.limit-requests-ip", args);
+        return handlerException(exception, HttpStatus.CONFLICT, request, "general.limit-requests-ip", args);
     }
 
     @ExceptionHandler({HttpClientErrorException.class})
     public ResponseEntity<Object> handlerHttpClientErrorException(HttpClientErrorException exception,
                                                                   WebRequest request) {
         Object[] args = {exception.getMessage()};
-        return handlerException(exception, HttpStatus.BAD_REQUEST, request, "general.internal-server-error", args);
+        return handlerException(exception, HttpStatus.INTERNAL_SERVER_ERROR, request, "general.internal-server-error", args);
+    }
+
+    @ExceptionHandler({TokenNotAuthorizedException.class})
+    public ResponseEntity<Object> handlerHttpClientErrorException(TokenNotAuthorizedException exception,
+                                                                  WebRequest request) {
+        Object[] args = {exception.getMessage()};
+        return handlerException(exception, HttpStatus.UNAUTHORIZED, request, "general.token-not-authorized", args);
     }
 
     private ResponseEntity<Object> handlerException(Exception exception,
@@ -42,7 +58,9 @@ public class ValidationsExceptionHandler extends ResponseEntityExceptionHandler 
                                                     WebRequest request,
                                                     String key,
                                                     Object[] args) {
-        ApiError<List<String>> response = new ApiError<>(List.of((messageService.getMessage(key, args))));
+        ApiError<List<String>> response = new ApiError<>(List.of((
+                messageService.getMessage(key, args)),
+                exception.getMessage()));
         response.setStatusCode(status.value());
         return handleExceptionInternal(exception, response, new HttpHeaders(), status, request);
     }
