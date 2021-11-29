@@ -6,6 +6,7 @@ import br.com.api.bibliadigital.model.dto.VersesResponseTO;
 import br.com.api.bibliadigital.model.dto.VersesV2;
 import br.com.api.bibliadigital.service.VersesService;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,8 @@ public class VersesRestController {
     @Autowired
     private HttpHeadersCreator httpHeadersCreator;
 
+    @ApiOperation(value = "Buscar todos versiculo e detalhes do capitulo",
+            notes = "Esse metódo busca todos os versiculos e detalhes do capítulo")
     @GetMapping(value = "/{version}/{abbrev}/{chapter}")
     public ResponseEntity<VersesV2> findAllVersesAndDetailsOfChapter(@PathVariable("version") String version,
                                                                      @PathVariable("abbrev") String abbrev,
@@ -33,6 +36,8 @@ public class VersesRestController {
         return ResponseEntity.ok().body(versesTO);
     }
 
+    @ApiOperation(value = "Buscar versiculo por capitulo",
+            notes = "Esse metódo busca todos os versiculos por capítulo")
     @GetMapping(value = "/{version}/{abbrev}/{chapter}/{number}")
     public ResponseEntity<Verse> findVerseByChapter(@PathVariable("version") String version,
                                                     @PathVariable("abbrev") String abbrev,
@@ -44,6 +49,8 @@ public class VersesRestController {
         return ResponseEntity.ok().body(verse);
     }
 
+    @ApiOperation(value = "Buscar versiculo aleatório",
+            notes = "Esse metódo encontra um versiculo aleatório")
     @GetMapping(value = "/{version}/random")
     public ResponseEntity<Verse> findVerseRandom(@PathVariable("version") String version,
                                                  HttpServletRequest servletRequest) {
@@ -52,6 +59,8 @@ public class VersesRestController {
         return ResponseEntity.ok().body(verse);
     }
 
+    @ApiOperation(value = "Buscar versiculos por livro aleatório",
+            notes = "Esse metódo busca um versiculo por livro aleatóriamente")
     @GetMapping(value = "/{version}/{abbrev}/random")
     public ResponseEntity<Verse> findVerseByBookRandom(@PathVariable("version") String version,
                                                        @PathVariable("abbrev") String abbrev,
@@ -61,6 +70,8 @@ public class VersesRestController {
         return ResponseEntity.ok().body(verse);
     }
 
+    @ApiOperation(value = "Buscar por palavra",
+            notes = "Esse metódo busca uma palavra em toda biblía")
     @PostMapping(value = "/search")
     public ResponseEntity<VersesResponseTO> searchByWord(@RequestBody VersesRequestTO request,
                                                          HttpServletRequest servletRequest) {
