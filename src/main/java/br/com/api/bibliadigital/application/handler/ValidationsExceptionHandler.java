@@ -47,20 +47,21 @@ public class ValidationsExceptionHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler({TokenNotAuthorizedException.class})
-    public ResponseEntity<Object> handlerHttpClientErrorException(TokenNotAuthorizedException exception,
+    public ResponseEntity<Object> handlerTokenNotAuthorizedException(TokenNotAuthorizedException exception,
                                                                   WebRequest request) {
         Object[] args = {exception.getMessage()};
-        return handlerException(exception, HttpStatus.UNAUTHORIZED, request, "general.token-not-authorized", args);
+        return handlerException(exception, HttpStatus.FORBIDDEN, request, "general.token-not-authorized", args);
     }
 
-    private ResponseEntity<Object> handlerException(Exception exception,
+    protected ResponseEntity<Object> handlerException(Exception exception,
                                                     HttpStatus status,
                                                     WebRequest request,
                                                     String key,
                                                     Object[] args) {
-        ApiError<List<String>> response = new ApiError<>(List.of((
-                messageService.getMessage(key, args)),
-                exception.getMessage()));
+        Error errors = new Error();
+        errors.setPt(messageService.getMessage(key, args));
+        errors.setEn(exception.getMessage());
+        ApiError<List<Error>> response = new ApiError<>(List.of(errors));
         response.setStatusCode(status.value());
         return handleExceptionInternal(exception, response, new HttpHeaders(), status, request);
     }

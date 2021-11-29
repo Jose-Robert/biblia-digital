@@ -2,6 +2,7 @@ package br.com.api.bibliadigital.integration;
 
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.ValidateComponent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -30,19 +32,31 @@ public class ConsumerRequestsEndpoints {
     private GetBearerToken token;
     @Autowired
     private HttpHeadersCreator httpHeaders;
+    @Autowired
+    private ValidateComponent component;
 
     public String getAllPeriodRequests(String range) {
-        String newUrl = url + BARRA + range;
-        var responseEntity = exchange(newUrl);
-        var ranges = responseEntity.getBody();
-        return getResultBody(ranges);
+        try {
+            String newUrl = url + BARRA + range;
+            var responseEntity = exchange(newUrl);
+            var ranges = responseEntity.getBody();
+            return getResultBody(ranges);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String getRequisitionsByPeriod(String range) {
-        String newUrl = url + BARRA + "amount/" + range;
-        var responseEntity = exchange(newUrl);
-        var ranges = responseEntity.getBody();
-        return getResultBody(ranges);
+        try {
+            String newUrl = url + BARRA + "amount/" + range;
+            var responseEntity = exchange(newUrl);
+            var ranges = responseEntity.getBody();
+            return getResultBody(ranges);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     private String getResultBody(String body) {
@@ -53,7 +67,8 @@ public class ConsumerRequestsEndpoints {
         log.info("Consultando API A BIBLIA DIGITAL - Requests Period");
         HttpHeaders headers = httpHeaders.createHttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>("headers", headers);
-        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>(){});
+        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+        });
     }
 
 }

@@ -2,6 +2,7 @@ package br.com.api.bibliadigital.integration;
 
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.UserValidateComponent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -30,46 +32,78 @@ public class ConsumerUsersEndpoints {
     private GetBearerToken token;
     @Autowired
     private HttpHeadersCreator httpHeaders;
+    @Autowired
+    private UserValidateComponent component;
 
     public String postUsers(Object request) {
-        var responseEntity = exchange(url, request);
-        var userBody = responseEntity.getBody();
-        return getResultBody(userBody);
+        try {
+            var responseEntity = exchange(url, request);
+            var userBody = responseEntity.getBody();
+            return getResultBody(userBody);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String getUser(String email) {
-        String newUrl = url + BARRA + email;
-        var responseEntity = exchange(newUrl);
-        var user = responseEntity.getBody();
-        return getResultBody(user);
+        try {
+            String newUrl = url + BARRA + email;
+            var responseEntity = exchange(newUrl);
+            var user = responseEntity.getBody();
+            return getResultBody(user);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String getUserStats() {
-        String newUrl = url + "/stats";
-        var responseEntity = exchange(newUrl);
-        var stats = responseEntity.getBody();
-        return getResultBody(stats);
+        try {
+            String newUrl = url + "/stats";
+            var responseEntity = exchange(newUrl);
+            var stats = responseEntity.getBody();
+            return getResultBody(stats);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String updateToken(Object request) {
-        String newUrl = url + "/token";
-        var responseEntity = exchangePut(newUrl, request);
-        var tokenBody = responseEntity.getBody();
-        return getResultBody(tokenBody);
+        try {
+            String newUrl = url + "/token";
+            var responseEntity = exchangePut(newUrl, request);
+            var tokenBody = responseEntity.getBody();
+            return getResultBody(tokenBody);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String deleteUser(Object request) {
-        var responseEntity = exchangeDelete(url, request);
-        var msg = responseEntity.getBody();
-        return getResultBody(msg);
+        try {
+            var responseEntity = exchangeDelete(url, request);
+            var msg = responseEntity.getBody();
+            return getResultBody(msg);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String sendEmail(String email) {
-        String newUrl = url + "/password" + BARRA + email;
-        log.info("Consultando API A BIBLIA DIGITAL - Resend User Password");
-        var responseEntity = restTemplate.exchange(newUrl, HttpMethod.POST, null, String.class);
-        var msg = responseEntity.getBody();
-        return getResultBody(msg);
+        try {
+            String newUrl = url + "/password" + BARRA + email;
+            log.info("Consultando API A BIBLIA DIGITAL - Resend User Password");
+            var responseEntity = restTemplate.exchange(newUrl, HttpMethod.POST, null, String.class);
+            var msg = responseEntity.getBody();
+            return getResultBody(msg);
+        } catch (HttpClientErrorException errorException) {
+            component.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     private String getResultBody(String body) {
@@ -80,7 +114,8 @@ public class ConsumerUsersEndpoints {
         log.info("Consultando API A BIBLIA DIGITAL - Users");
         HttpHeaders headers = httpHeaders.createHttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>("headers", headers);
-        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>(){});
+        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+        });
     }
 
     private ResponseEntity<String> exchange(String uri, Object request) {
@@ -99,7 +134,8 @@ public class ConsumerUsersEndpoints {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(request);
-        return restTemplate.exchange(uri, HttpMethod.PUT, requestEntity, new ParameterizedTypeReference<>(){});
+        return restTemplate.exchange(uri, HttpMethod.PUT, requestEntity, new ParameterizedTypeReference<>() {
+        });
     }
 
     private ResponseEntity<String> exchangeDelete(String uri, Object request) {

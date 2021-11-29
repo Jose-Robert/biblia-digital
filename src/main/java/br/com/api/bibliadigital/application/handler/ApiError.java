@@ -13,23 +13,21 @@ import java.util.List;
 @Setter
 public class ApiError<T> implements Serializable {
 
-
-    private List<String> errors = new ArrayList<>();
-    private String dataHora;
+    private List<Error> errors = new ArrayList<>();
+    private String dateTime;
     private int statusCode;
 
-    public ApiError() {
-    }
+    public ApiError() {}
 
-    public ApiError(List<String> errors) {
+    public ApiError(List<Error> errors) {
         super();
         this.errors = errors;
     }
 
-    public String getDataHora() {
-        LocalDateTime dataAndHorario = LocalDateTime.now();
+    public String getDateTime() {
+        LocalDateTime dateAndTime = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        dataHora = dateTimeFormatter.format(dataAndHorario);
-        return dataHora;
+        dateTime = dateTimeFormatter.format(dateAndTime);
+        return dateTime;
     }
 }
