@@ -1,5 +1,6 @@
 package br.com.api.bibliadigital.integration;
 
+import br.com.api.bibliadigital.shared.BookValidateComponent;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -27,18 +29,30 @@ public class ConsumerBooksEndpoints {
     private RestTemplate restTemplate;
     @Autowired
     private HttpHeadersCreator httpHeaders;
+    @Autowired
+    private BookValidateComponent validateComponent;
 
     public String getBooks() {
-        var responseEntity = exchange(url);
-        var books = responseEntity.getBody();
-        return getResultBody(books);
+        try{
+            var responseEntity = exchange(url);
+            var books = responseEntity.getBody();
+            return getResultBody(books);
+        } catch (HttpClientErrorException errorException) {
+            validateComponent.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     public String getBookByAbbrev(String abbrev) {
-        String newUrl = url + BARRA + abbrev;
-        var responseEntity = exchange(newUrl);
-        var book = responseEntity.getBody();
-        return getResultBody(book);
+        try {
+            String newUrl = url + BARRA + abbrev;
+            var responseEntity = exchange(newUrl);
+            var book = responseEntity.getBody();
+            return getResultBody(book);
+        } catch (HttpClientErrorException errorException) {
+            validateComponent.validate(errorException);
+        }
+        return EMPTY_BODY;
     }
 
     private String getResultBody(String body) {
