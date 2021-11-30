@@ -1,8 +1,10 @@
 package br.com.api.bibliadigital.integration;
 
+import br.com.api.bibliadigital.application.exceptions.ConfilctLimitRequisitionsIPException;
 import br.com.api.bibliadigital.application.exceptions.ResourceNotFoundException;
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.ValidateComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +13,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static br.com.api.bibliadigital.utils.Constantes.BEARER_TOKEN;
 import static br.com.api.bibliadigital.utils.Constantes.URL_BOOKS;
@@ -31,6 +35,8 @@ class ConsumerBooksEndpointsTests {
 
     @Autowired
     private ConsumerBooksEndpoints booksEndpoints;
+    @Autowired
+    private ValidateComponent component;
     @Autowired
     public GetBearerToken token;
     @Autowired
@@ -72,6 +78,20 @@ class ConsumerBooksEndpointsTests {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
                 () -> booksEndpoints.getBookByAbbrev("PP"));
         assertEquals(exception.getClass(), ResourceNotFoundException.class);
+    }
+
+    @Test
+    void should_ThrowInternalServerError500() {
+        HttpClientErrorException exception = assertThrows(HttpClientErrorException.class,
+                () -> component.validate(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR)));
+        assertEquals(exception.getClass(), HttpClientErrorException.class);
+    }
+
+    @Test
+    void should_ThrowConfilctLimitRequisitionsIPException409() {
+        ConfilctLimitRequisitionsIPException exception = assertThrows(ConfilctLimitRequisitionsIPException.class,
+                () -> component.validate(new HttpClientErrorException(HttpStatus.CONFLICT)));
+        assertEquals(exception.getClass(), ConfilctLimitRequisitionsIPException.class);
     }
 
 }
