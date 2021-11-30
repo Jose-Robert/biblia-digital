@@ -4,7 +4,6 @@ import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import br.com.api.bibliadigital.shared.ValidateComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,8 +38,7 @@ public class ConsumerRequestsEndpoints {
         try {
             String newUrl = url + BARRA + range;
             var responseEntity = exchange(newUrl);
-            var ranges = responseEntity.getBody();
-            return getResultBody(ranges);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -51,16 +49,11 @@ public class ConsumerRequestsEndpoints {
         try {
             String newUrl = url + BARRA + "amount/" + range;
             var responseEntity = exchange(newUrl);
-            var ranges = responseEntity.getBody();
-            return getResultBody(ranges);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
         return EMPTY_BODY;
-    }
-
-    private String getResultBody(String body) {
-        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {

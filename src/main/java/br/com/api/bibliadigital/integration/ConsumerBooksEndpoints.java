@@ -1,9 +1,8 @@
 package br.com.api.bibliadigital.integration;
 
-import br.com.api.bibliadigital.shared.ValidateComponent;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.ValidateComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,8 +34,7 @@ public class ConsumerBooksEndpoints {
     public String getBooks() {
         try{
             var responseEntity = exchange(url);
-            var books = responseEntity.getBody();
-            return getResultBody(books);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -47,16 +45,11 @@ public class ConsumerBooksEndpoints {
         try {
             String newUrl = url + BARRA + abbrev;
             var responseEntity = exchange(newUrl);
-            var book = responseEntity.getBody();
-            return getResultBody(book);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
         return EMPTY_BODY;
-    }
-
-    private String getResultBody(String body) {
-        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {

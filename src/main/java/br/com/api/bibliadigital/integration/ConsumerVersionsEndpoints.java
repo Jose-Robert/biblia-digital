@@ -3,7 +3,6 @@ package br.com.api.bibliadigital.integration;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import br.com.api.bibliadigital.shared.ValidateComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -33,16 +32,11 @@ public class ConsumerVersionsEndpoints {
     public String getVersions() {
         try {
             var responseEntity = exchange(url);
-            var versions = responseEntity.getBody();
-            return getResultBody(versions);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
         return EMPTY_BODY;
-    }
-
-    private String getResultBody(String body) {
-        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {

@@ -4,7 +4,6 @@ import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
 import br.com.api.bibliadigital.shared.ValidateComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,8 +38,7 @@ public class ConsumerVersesEndpoints {
         try {
             String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter;
             var responseEntity = exchange(newUrl);
-            var verses = responseEntity.getBody();
-            return getResultBody(verses);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -51,8 +49,7 @@ public class ConsumerVersesEndpoints {
         try {
             String newUrl = url + BARRA + version + BARRA + abbrev + BARRA + chapter + BARRA + number;
             var responseEntity = exchange(newUrl);
-            var verses = responseEntity.getBody();
-            return getResultBody(verses);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -63,8 +60,7 @@ public class ConsumerVersesEndpoints {
         try {
             String newUrl = url + BARRA + version + "/random";
             var responseEntity = exchange(newUrl);
-            var verse = responseEntity.getBody();
-            return getResultBody(verse);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -75,8 +71,7 @@ public class ConsumerVersesEndpoints {
         try {
             String newUrl = url + BARRA + version + BARRA + abbrev + "/random";
             var responseEntity = exchange(newUrl);
-            var verses = responseEntity.getBody();
-            return getResultBody(verses);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
@@ -87,16 +82,11 @@ public class ConsumerVersesEndpoints {
         try {
             String newUrl = url + "/search";
             var responseEntity = exchange(newUrl, request);
-            var resultSearch = responseEntity.getBody();
-            return getResultBody(resultSearch);
+            return responseEntity.getBody();
         } catch (HttpClientErrorException errorException) {
             component.validate(errorException);
         }
         return EMPTY_BODY;
-    }
-
-    private String getResultBody(String body) {
-        return !StringUtils.isBlank(body) ? body : EMPTY_BODY;
     }
 
     private ResponseEntity<String> exchange(String uri) {
