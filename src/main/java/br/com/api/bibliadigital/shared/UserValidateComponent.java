@@ -1,11 +1,9 @@
 package br.com.api.bibliadigital.shared;
 
 import br.com.api.bibliadigital.application.exceptions.UserAlreadyExistsException;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-@Primary
 @Component
 public class UserValidateComponent extends ValidateComponent {
 
