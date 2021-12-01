@@ -4,6 +4,10 @@ public class Constantes {
 
     public static final String URL_VERSES = "https://www.abibliadigital.com.br/api/verses";
     public static final String URL_BOOKS = "https://www.abibliadigital.com.br/api/books";
+    public static final String URL_VERSIONS = "https://www.abibliadigital.com.br/api/versions";
+    public static final String URL_USERS = "https://www.abibliadigital.com.br/api/users";
+    public static final String URL_REQUESTS = "https://www.abibliadigital.com.br/api/requests";
+
     public static final String BEARER_TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
             ".eyJpZCI6IlN1biBOb3YgMjggMjAyMSAxNzoxMDoxOCBHTVQrMDAwMC42MWE" +
             "xNDg0ZWJlNDU2YjAwMjRkODk5YzUiLCJpYXQiOjE2MzgxMTk0MTh9" +
