@@ -1,9 +1,11 @@
 package br.com.api.bibliadigital.integration;
 
+import br.com.api.bibliadigital.application.exceptions.TokenNotAuthorizedException;
 import br.com.api.bibliadigital.model.dto.UserRequestTO;
 import br.com.api.bibliadigital.model.dto.UserRequestV2;
 import br.com.api.bibliadigital.shared.GetBearerToken;
 import br.com.api.bibliadigital.shared.HttpHeadersCreator;
+import br.com.api.bibliadigital.shared.UserValidateComponent;
 import br.com.api.bibliadigital.utils.CreatorUserTests;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static br.com.api.bibliadigital.utils.Constantes.BEARER_TOKEN;
 import static br.com.api.bibliadigital.utils.Constantes.URL_USERS;
 import static br.com.api.bibliadigital.utils.GeradorNome.gerarNome;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.powermock.reflect.Whitebox.invokeMethod;
 
 
@@ -41,6 +44,8 @@ class ConsumerUsersEndpointsTests {
     public HttpHeadersCreator httpHeaders;
     @Autowired
     public CreatorUserTests creatorUser;
+    @Autowired
+    private UserValidateComponent component;
 
     private String responseEntity;
     private String email;
@@ -97,7 +102,7 @@ class ConsumerUsersEndpointsTests {
         responseEntity = usersEndpoints.deleteUser(requestV2);
         JSONObject json = new JSONObject(responseEntity);
         String msg = json.getString("msg");
-        assertNotNull(msg, "User successfully removed");
+        assertEquals("User successfully removed", msg);
     }
 
     @Test
@@ -105,7 +110,21 @@ class ConsumerUsersEndpointsTests {
         responseEntity = usersEndpoints.sendEmail(email);
         JSONObject json = new JSONObject(responseEntity);
         String msg = json.getString("msg");
-        assertNotNull(msg, "New password successfully sent to email "+email);
+        assertEquals("New password successfully sent to email "+email, msg);
+    }
+
+    @Test
+    void should_throwUserAlreadyExistsException() {
+        token.setBearerToken(null);
+        httpHeaders = new HttpHeadersCreator(token);
+        try {
+            responseEntity = usersEndpoints.getUser(email);
+        } catch (TokenNotAuthorizedException errorException) {
+            String message = errorException.getMessage();
+            String statusCode = message.substring(0,3);
+            assertThat(statusCode).isEqualTo("403");
+            assertEquals(errorException.getClass(), TokenNotAuthorizedException.class);
+        }
     }
 
     @Test
