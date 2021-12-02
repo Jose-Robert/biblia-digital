@@ -20,13 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.HttpClientErrorException;
 
 import static br.com.api.bibliadigital.utils.Constantes.BEARER_TOKEN;
 import static br.com.api.bibliadigital.utils.Constantes.URL_USERS;
 import static br.com.api.bibliadigital.utils.GeradorNome.gerarNome;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.powermock.reflect.Whitebox.invokeMethod;
 
 
